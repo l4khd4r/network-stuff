@@ -16,12 +16,34 @@ int main(void)
 	memset(&hint, 0, sizeof(hint));
 	hint.ai_family = AF_INET;
 	hint.ai_socktype = SOCK_STREAM;
+	hint.ai_flags = AI_PASSIVE;
+	/*
+	getaddrinfo(NULL, "3890", AI_PASSIVE)
+			    ↓
+			returns 0.0.0.0:3890
 
-	status = getaddrinfo("google.com", "http", &hint, &res);
+			socket()
+			    ↓
+			creates FD
+
+			bind()
+			    ↓
+			attaches socket to 0.0.0.0:3890
+
+			listen()
+			    ↓
+			socket becomes LISTEN
+	*/
+
+	status = getaddrinfo(NULL, "3490", &hint, &res);
+	//By using the AI_PASSIVE flag, I’m telling the program to bind to the IP of the host it’s running on. If you want to bind to a specific local IP address, drop the AI_PASSIVE and put an IP address in for the first argument to getaddrinfo()
+
+	
 	if (status != 0) {
 		fprintf(stderr, "getaddrinfo: %s\n", gai_strerror(status));
 		return 1;
 	}
+
 	char ipstr[INET_ADDRSTRLEN];
 
 	struct sockaddr_in *ipv4 = (struct sockaddr_in *)res->ai_addr;

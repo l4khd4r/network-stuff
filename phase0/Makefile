@@ -1,9 +1,16 @@
 CC := gcc
 CFLAGS := -Wall -Wextra -pedantic
 
-TARGETS := assignip hostnr showip socket
+TARGETS := assignip hostnr showip socket bind connect
 
 all: $(TARGETS)
+
+bind: bind.c 
+	$(CC) $(CFLAGS) bind.c -o bind
+
+
+connect: connect.c 
+	$(CC) $(CFLAGS) connect.c -o connect
 
 assignip: assignip.c
 	$(CC) $(CFLAGS) assignip.c -o assignip
