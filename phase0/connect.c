@@ -43,13 +43,13 @@ int main(void)
         if (connect(socketFd, p->ai_addr, p->ai_addrlen) == 0)
         {
             printf("Connected to %s\n", ipstr);
-            // close(socketFd);
             break;
         }
 
         perror("connect");
         close(socketFd);
     }
+
     const char *request = "GET / HTTP/1.1\r\nHost: google.com\r\n\r\n";
     send(socketFd , request , strlen(request) , 0);
     char buffer[4096];
@@ -58,7 +58,7 @@ int main(void)
     while((bytes = recv(socketFd, buffer ,sizeof(buffer )  -1  ,0)) > 1)
     {
         buffer[bytes ] = '\0';
-        printf("reponse : %s\n", buffer );
+        printf("%s\n", buffer );
     }
     freeaddrinfo(res);
     return 0;

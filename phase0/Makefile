@@ -1,13 +1,15 @@
 CC := gcc
 CFLAGS := -Wall -Wextra -pedantic
 
-TARGETS := assignip hostnr showip socket bind connect
+TARGETS := assignip hostnr showip socket bind connect accept
 
 all: $(TARGETS)
 
 bind: bind.c 
 	$(CC) $(CFLAGS) bind.c -o bind
 
+accept: accept.c 
+	$(CC) $(CFLAGS) accept.c -o accept
 
 connect: connect.c 
 	$(CC) $(CFLAGS) connect.c -o connect
